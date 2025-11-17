@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Preparation Tracker</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .user-details h1 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .user-details p {
+            color: #666;
+        }
+        
+        .edit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .edit-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .goal-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .goal-header h2 {
+            color: var(--primary-color);
+        }
+        
+        .scores-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .scores-table th, .scores-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .scores-table th {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+        
+        .scores-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .score-input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .tab {
+            padding: 15px 20px;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        
+        .tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .input-group {
+            display: flex;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+        
+        .input-group input, .input-group select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+        }
+        
+        .input-group input {
+            flex: 1;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .task-list, .mock-list, .checklist {
+            list-style-type: none;
+        }
+        
+        .task-item, .mock-item, .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .task-item:last-child, .mock-item:last-child, .checklist-item:last-child {
+            border-bottom: none;
+        }
+        
+        .task-checkbox, .checklist-checkbox {
+            margin-right: 10px;
+        }
+        
+        .task-text, .checklist-text {
+            flex: 1;
+        }
+        
+        .task-completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+        
+        .mock-name {
+            flex: 1;
+            font-weight: bold;
+        }
+        
+        .mock-date {
+            margin-right: 15px;
+            color: #666;
+        }
+        
+        .mock-result {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--success-color);
+            border-radius: 10px;
+            transition: width 0.5s;
+        }
+        
+        .trend-up {
+            color: var(--success-color);
+        }
+        
+        .trend-down {
+            color: var(--danger-color);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header h2 {
+            color: var(--primary-color);
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+        
+        .skills-checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .skill-category {
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            padding: 15px;
+        }
+        
+        .skill-category h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        
+        .weekly-plan {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .day-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .day-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        
+        .day-tasks {
+            list-style-type: none;
+        }
+        
+        .day-task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .day-task:last-child {
+            border-bottom: none;
+        }
+        
+        .task-time {
+            font-size: 12px;
+            color: #666;
+            background-color: var(--light-color);
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+        
+        .mock-details {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+        }
+        
+        .mock-scores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .score-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .score-input-group label {
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #666;
+        }
+        
+        /* Responsive dizayn */
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .scores-table {
+                font-size: 14px;
+            }
+            
+            .scores-table th, .scores-table td {
+                padding: 8px 5px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .mock-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .mock-date, .mock-result {
+                margin: 5px 0;
+            }
+            
+            .skills-checklist {
+                grid-template-columns: 1fr;
+            }
+            
+            .weekly-plan {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <h1 id="welcomeMessage">Welcome, User!</h1>
+                    <p>Track your IELTS preparation progress</p>
+                </div>
+            </div>
+            <button class="edit-btn" id="editProfileBtn">Edit Profile</button>
+        </header>
+        
+        <section class="goal-section">
+            <div class="goal-header">
+                <h2>IELTS Score Goals</h2>
+                <button class="edit-btn" id="editGoalsBtn">Edit Goals</button>
+            </div>
+            <table class="scores-table">
+                <thead>
+                    <tr>
+                        <th>Skill</th>
+                        <th>Current Score</th>
+                        <th>Target Score</th>
+                        <th>Progress</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Overall</td>
+                        <td id="currentOverall">5.5</td>
+                        <td id="targetOverall">6.5</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="overallProgress" style="width: 45%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Listening (L)</td>
+                        <td id="currentListening">5.0</td>
+                        <td id="targetListening">6.0</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="listeningProgress" style="width: 33%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Reading (R)</td>
+                        <td id="currentReading">5.5</td>
+                        <td id="targetReading">6.5</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="readingProgress" style="width: 50%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Writing (W)</td>
+                        <td id="currentWriting">5.5</td>
+                        <td id="targetWriting">6.5</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="writingProgress" style="width: 50%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Speaking (S)</td>
+                        <td id="currentSpeaking">6.0</td>
+                        <td id="targetSpeaking">7.0</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="speakingProgress" style="width: 60%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="daily">Daily Tasks</div>
+            <div class="tab" data-tab="weekly">Weekly Plan</div>
+            <div class="tab" data-tab="mock">Mock Tests</div>
+            <div class="tab" data-tab="skills">Skills Checklist</div>
+            <div class="tab" data-tab="stats">Statistics</div>
+        </div>
+        
+        <!-- Daily Tasks Section -->
+        <div class="tab-content active" id="daily">
+            <div class="card">
+                <h2>Daily Tasks</h2>
+                <div class="input-group">
+                    <input type="text" id="taskInput" placeholder="Add new task...">
+                    <button class="btn" id="addTaskBtn">+</button>
+                </div>
+                <ul class="task-list" id="taskList">
+                    <!-- Tasks will be added here by JavaScript -->
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Weekly Plan Section -->
+        <div class="tab-content" id="weekly">
+            <div class="card">
+                <h2>Weekly Study Plan</h2>
+                <div class="input-group">
+                    <input type="text" id="weeklyTaskInput" placeholder="Add task for selected day...">
+                    <input type="time" id="weeklyTimeInput">
+                    <select id="weeklyDaySelect">
+                        <option value="monday">Monday</option>
+                        <option value="tuesday">Tuesday</option>
+                        <option value="wednesday">Wednesday</option>
+                        <option value="thursday">Thursday</option>
+                        <option value="friday">Friday</option>
+                        <option value="saturday">Saturday</option>
+                        <option value="sunday">Sunday</option>
+                    </select>
+                    <button class="btn" id="addWeeklyTaskBtn">+</button>
+                </div>
+                <div class="weekly-plan">
+                    <div class="day-card">
+                        <h3>Monday</h3>
+                        <ul class="day-tasks" id="mondayTasks"></ul>
+                    </div>
+                    <div class="day-card">
+                        <h3>Tuesday</h3>
+                        <ul class="day-tasks" id="tuesdayTasks"></ul>
+                    </div>
+                    <div class="day-card">
+                        <h3>Wednesday</h3>
+                        <ul class="day-tasks" id="wednesdayTasks"></ul>
+                    </div>
+                    <div class="day-card">
+                        <h3>Thursday</h3>
+                        <ul class="day-tasks" id="thursdayTasks"></ul>
+                    </div>
+                    <div class="day-card">
+                        <h3>Friday</h3>
+                        <ul class="day-tasks" id="fridayTasks"></ul>
+                    </div>
+                    <div class="day-card">
+                        <h3>Saturday</h3>
+                        <ul class="day-tasks" id="saturdayTasks"></ul>
+                    </div>
+                    <div class="day-card">
+                        <h3>Sunday</h3>
+                        <ul class="day-tasks" id="sundayTasks"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mock Tests Section -->
+        <div class="tab-content" id="mock">
+            <div class="card">
+                <h2>Mock Tests</h2>
+                <div class="input-group">
+                    <input type="text" id="mockInput" placeholder="Mock test name...">
+                    <input type="date" id="mockDateInput">
+                    <button class="btn" id="addMockBtn">+</button>
+                </div>
+                <ul class="mock-list" id="mockList">
+                    <!-- Mock tests will be added here by JavaScript -->
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Skills Checklist Section -->
+        <div class="tab-content" id="skills">
+            <div class="card">
+                <h2>IELTS Skills Checklist</h2>
+                <div class="skills-checklist">
+                    <div class="skill-category">
+                        <h3>Speaking (S)</h3>
+                        <ul class="checklist" id="speakingChecklist"></ul>
+                        <div class="input-group">
+                            <input type="text" id="speakingInput" placeholder="Add speaking skill...">
+                            <button class="btn" id="addSpeakingBtn">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3>Writing (W)</h3>
+                        <ul class="checklist" id="writingChecklist"></ul>
+                        <div class="input-group">
+                            <input type="text" id="writingInput" placeholder="Add writing skill...">
+                            <button class="btn" id="addWritingBtn">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3>Reading (R)</h3>
+                        <ul class="checklist" id="readingChecklist"></ul>
+                        <div class="input-group">
+                            <input type="text" id="readingInput" placeholder="Add reading skill...">
+                            <button class="btn" id="addReadingBtn">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3>Listening (L)</h3>
+                        <ul class="checklist" id="listeningChecklist"></ul>
+                        <div class="input-group">
+                            <input type="text" id="listeningInput" placeholder="Add listening skill...">
+                            <button class="btn" id="addListeningBtn">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3>Grammar (G)</h3>
+                        <ul class="checklist" id="grammarChecklist"></ul>
+                        <div class="input-group">
+                            <input type="text" id="grammarInput" placeholder="Add grammar skill...">
+                            <button class="btn" id="addGrammarBtn">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3>Vocabulary (V)</h3>
+                        <ul class="checklist" id="vocabularyChecklist"></ul>
+                        <div class="input-group">
+                            <input type="text" id="vocabularyInput" placeholder="Add vocabulary skill...">
+                            <button class="btn" id="addVocabularyBtn">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Statistics Section -->
+        <div class="tab-content" id="stats">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Daily Tasks</h3>
+                    <div class="stat-value" id="totalTasks">0</div>
+                    <p>Total Tasks</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="taskProgress" style="width: 0%"></div>
+                    </div>
+                    <p><span id="completedTasks">0</span> Completed</p>
+                    <p><span id="pendingTasks">0</span> Pending</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Mock Tests</h3>
+                    <div class="stat-value" id="totalMocks">0</div>
+                    <p>Total Mock Tests</p>
+                    <div id="mockTrend">Trend: -</div>
+                    <div id="recentMocks">
+                        <p>Last 5 test results:</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Skills Progress</h3>
+                    <div class="stat-value" id="skillsCompleted">0%</div>
+                    <p>Skills Mastered</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="skillsProgress" style="width: 0%"></div>
+                    </div>
+                    <p><span id="masteredSkills">0</span> of <span id="totalSkills">0</span> skills</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Edit Modal -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Profile</h2>
+                <button class="close-btn" id="closeProfileModal">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" placeholder="Enter your first name">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" placeholder="Enter your last name">
+            </div>
+            <button class="btn" id="saveProfileBtn" style="width: 100%;">Save Profile</button>
+        </div>
+    </div>
+
+    <!-- Goals Edit Modal -->
+    <div class="modal" id="goalsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Score Goals</h2>
+                <button class="close-btn" id="closeGoalsModal">&times;</button>
+            </div>
+            <table class="scores-table">
+                <thead>
+                    <tr>
+                        <th>Skill</th>
+                        <th>Current</th>
+                        <th>Target</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Listening</td>
+                        <td><input type="number" class="score-input" id="editCurrentListening" value="5.0" min="0" max="9" step="0.5"></td>
+                        <td><input type="number" class="score-input" id="editTargetListening" value="6.0" min="0" max="9" step="0.5"></td>
+                    </tr>
+                    <tr>
+                        <td>Reading</td>
+                        <td><input type="number" class="score-input" id="editCurrentReading" value="5.5" min="0" max="9" step="0.5"></td>
+                        <td><input type="number" class="score-input" id="editTargetReading" value="6.5" min="0" max="9" step="0.5"></td>
+                    </tr>
+                    <tr>
+                        <td>Writing</td>
+                        <td><input type="number" class="score-input" id="editCurrentWriting" value="5.5" min="0" max="9" step="0.5"></td>
+                        <td><input type="number" class="score-input" id="editTargetWriting" value="6.5" min="0" max="9" step="0.5"></td>
+                    </tr>
+                    <tr>
+                        <td>Speaking</td>
+                        <td><input type="number" class="score-input" id="editCurrentSpeaking" value="6.0" min="0" max="9" step="0.5"></td>
+                        <td><input type="number" class="score-input" id="editTargetSpeaking" value="7.0" min="0" max="9" step="0.5"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 15px; padding: 10px; background-color: #f8f9fa; border-radius: 5px;">
+                <p><strong>Overall Score:</strong> <span id="calculatedOverall">5.5</span></p>
+                <p><strong>Target Overall:</strong> <span id="calculatedTargetOverall">6.5</span></p>
+            </div>
+            <button class="btn" id="saveGoalsBtn" style="width: 100%; margin-top: 20px;">Save Goals</button>
+        </div>
+    </div>
+
+    <!-- Mock Test Details Modal -->
+    <div class="modal" id="mockDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Mock Test Details</h2>
+                <button class="close-btn" id="closeMockDetailsModal">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="mockTestName">Test Name</label>
+                <input type="text" id="mockTestName" placeholder="Enter test name">
+            </div>
+            <div class="form-group">
+                <label for="mockTestDate">Test Date</label>
+                <input type="date" id="mockTestDate">
+            </div>
+            <div class="mock-details">
+                <h3>Section Scores</h3>
+                <div class="mock-scores">
+                    <div class="score-input-group">
+                        <label for="mockListening">Listening</label>
+                        <input type="number" id="mockListening" min="0" max="9" step="0.5" placeholder="0.0">
+                    </div>
+                    <div class="score-input-group">
+                        <label for="mockReading">Reading</label>
+                        <input type="number" id="mockReading" min="0" max="9" step="0.5" placeholder="0.0">
+                    </div>
+                    <div class="score-input-group">
+                        <label for="mockWriting">Writing</label>
+                        <input type="number" id="mockWriting" min="0" max="9" step="0.5" placeholder="0.0">
+                    </div>
+                    <div class="score-input-group">
+                        <label for="mockSpeaking">Speaking</label>
+                        <input type="number" id="mockSpeaking" min="0" max="9" step="0.5" placeholder="0.0">
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 10px; background-color: #e8f4fd; border-radius: 5px;">
+                    <p><strong>Overall Score:</strong> <span id="mockOverallScore">0.0</span></p>
+                </div>
+            </div>
+            <button class="btn" id="saveMockDetailsBtn" style="width: 100%; margin-top: 20px;">Save Mock Test</button>
+        </div>
+    </div>
+
+    <script>
+        // Helper function to round IELTS scores properly
+        function roundIeltsScore(score) {
+            // IELTS scores are rounded to nearest 0.5
+            const rounded = Math.round(score * 2) / 2;
+            // Ensure it's exactly 0.5 increments
+            return Math.max(0, Math.min(9, rounded));
+        }
+
+        // Helper function to calculate overall IELTS score
+        function calculateOverallScore(scores) {
+            const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+            return roundIeltsScore(average);
+        }
+
+        // DOM Elements
+        const taskInput = document.getElementById('taskInput');
+        const addTaskBtn = document.getElementById('addTaskBtn');
+        const taskList = document.getElementById('taskList');
+        
+        // Weekly plan elements
+        const weeklyTaskInput = document.getElementById('weeklyTaskInput');
+        const weeklyTimeInput = document.getElementById('weeklyTimeInput');
+        const weeklyDaySelect = document.getElementById('weeklyDaySelect');
+        const addWeeklyTaskBtn = document.getElementById('addWeeklyTaskBtn');
+        
+        // Mock test elements
+        const mockInput = document.getElementById('mockInput');
+        const mockDateInput = document.getElementById('mockDateInput');
+        const addMockBtn = document.getElementById('addMockBtn');
+        const mockList = document.getElementById('mockList');
+        
+        // Skills checklist inputs
+        const speakingInput = document.getElementById('speakingInput');
+        const addSpeakingBtn = document.getElementById('addSpeakingBtn');
+        const speakingChecklist = document.getElementById('speakingChecklist');
+        
+        const writingInput = document.getElementById('writingInput');
+        const addWritingBtn = document.getElementById('addWritingBtn');
+        const writingChecklist = document.getElementById('writingChecklist');
+        
+        const readingInput = document.getElementById('readingInput');
+        const addReadingBtn = document.getElementById('addReadingBtn');
+        const readingChecklist = document.getElementById('readingChecklist');
+        
+        const listeningInput = document.getElementById('listeningInput');
+        const addListeningBtn = document.getElementById('addListeningBtn');
+        const listeningChecklist = document.getElementById('listeningChecklist');
+        
+        const grammarInput = document.getElementById('grammarInput');
+        const addGrammarBtn = document.getElementById('addGrammarBtn');
+        const grammarChecklist = document.getElementById('grammarChecklist');
+        
+        const vocabularyInput = document.getElementById('vocabularyInput');
+        const addVocabularyBtn = document.getElementById('addVocabularyBtn');
+        const vocabularyChecklist = document.getElementById('vocabularyChecklist');
+        
+        // Modal elements
+        const profileModal = document.getElementById('profileModal');
+        const goalsModal = document.getElementById('goalsModal');
+        const mockDetailsModal = document.getElementById('mockDetailsModal');
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        const editGoalsBtn = document.getElementById('editGoalsBtn');
+        const closeProfileModal = document.getElementById('closeProfileModal');
+        const closeGoalsModal = document.getElementById('closeGoalsModal');
+        const closeMockDetailsModal = document.getElementById('closeMockDetailsModal');
+        const saveProfileBtn = document.getElementById('saveProfileBtn');
+        const saveGoalsBtn = document.getElementById('saveGoalsBtn');
+        const saveMockDetailsBtn = document.getElementById('saveMockDetailsBtn');
+        
+        // Mock details modal elements
+        const mockTestName = document.getElementById('mockTestName');
+        const mockTestDate = document.getElementById('mockTestDate');
+        const mockListening = document.getElementById('mockListening');
+        const mockReading = document.getElementById('mockReading');
+        const mockWriting = document.getElementById('mockWriting');
+        const mockSpeaking = document.getElementById('mockSpeaking');
+        const mockOverallScore = document.getElementById('mockOverallScore');
+        
+        // User information
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const userAvatar = document.getElementById('userAvatar');
+        const firstNameInput = document.getElementById('firstName');
+        const lastNameInput = document.getElementById('lastName');
+        
+        // Score elements
+        const currentOverall = document.getElementById('currentOverall');
+        const targetOverall = document.getElementById('targetOverall');
+        const currentListening = document.getElementById('currentListening');
+        const targetListening = document.getElementById('targetListening');
+        const currentReading = document.getElementById('currentReading');
+        const targetReading = document.getElementById('targetReading');
+        const currentWriting = document.getElementById('currentWriting');
+        const targetWriting = document.getElementById('targetWriting');
+        const currentSpeaking = document.getElementById('currentSpeaking');
+        const targetSpeaking = document.getElementById('targetSpeaking');
+        
+        // Progress bars
+        const overallProgress = document.getElementById('overallProgress');
+        const listeningProgress = document.getElementById('listeningProgress');
+        const readingProgress = document.getElementById('readingProgress');
+        const writingProgress = document.getElementById('writingProgress');
+        const speakingProgress = document.getElementById('speakingProgress');
+        
+        // Edit score inputs
+        const editCurrentListening = document.getElementById('editCurrentListening');
+        const editTargetListening = document.getElementById('editTargetListening');
+        const editCurrentReading = document.getElementById('editCurrentReading');
+        const editTargetReading = document.getElementById('editTargetReading');
+        const editCurrentWriting = document.getElementById('editCurrentWriting');
+        const editTargetWriting = document.getElementById('editTargetWriting');
+        const editCurrentSpeaking = document.getElementById('editCurrentSpeaking');
+        const editTargetSpeaking = document.getElementById('editTargetSpeaking');
+        const calculatedOverall = document.getElementById('calculatedOverall');
+        const calculatedTargetOverall = document.getElementById('calculatedTargetOverall');
+        
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // Statistics elements
+        const totalTasks = document.getElementById('totalTasks');
+        const completedTasks = document.getElementById('completedTasks');
+        const pendingTasks = document.getElementById('pendingTasks');
+        const taskProgress = document.getElementById('taskProgress');
+        const totalMocks = document.getElementById('totalMocks');
+        const mockTrend = document.getElementById('mockTrend');
+        const recentMocks = document.getElementById('recentMocks');
+        const skillsCompleted = document.getElementById('skillsCompleted');
+        const skillsProgress = document.getElementById('skillsProgress');
+        const masteredSkills = document.getElementById('masteredSkills');
+        const totalSkills = document.getElementById('totalSkills');
+        
+        // Data storage
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        let weeklyTasks = JSON.parse(localStorage.getItem('weeklyTasks')) || {
+            monday: [], tuesday: [], wednesday: [], thursday: [], 
+            friday: [], saturday: [], sunday: []
+        };
+        let mocks = JSON.parse(localStorage.getItem('mocks')) || [];
+        let user = JSON.parse(localStorage.getItem('user')) || { firstName: 'User', lastName: '' };
+        let goals = JSON.parse(localStorage.getItem('goals')) || {
+            currentListening: 5.0,
+            targetListening: 6.0,
+            currentReading: 5.5,
+            targetReading: 6.5,
+            currentWriting: 5.5,
+            targetWriting: 6.5,
+            currentSpeaking: 6.0,
+            targetSpeaking: 7.0
+        };
+        
+        // Skills checklist data
+        let skills = JSON.parse(localStorage.getItem('skills')) || {
+            speaking: [
+                { id: 1, text: 'Fluency and coherence', completed: false },
+                { id: 2, text: 'Lexical resource', completed: false },
+                { id: 3, text: 'Grammatical range and accuracy', completed: false },
+                { id: 4, text: 'Pronunciation', completed: false }
+            ],
+            writing: [
+                { id: 1, text: 'Task achievement (Task 1)', completed: false },
+                { id: 2, text: 'Coherence and cohesion', completed: false },
+                { id: 3, text: 'Lexical resource', completed: false },
+                { id: 4, text: 'Grammatical range and accuracy', completed: false },
+                { id: 5, text: 'Task response (Task 2)', completed: false }
+            ],
+            reading: [
+                { id: 1, text: 'Reading for gist', completed: false },
+                { id: 2, text: 'Reading for main ideas', completed: false },
+                { id: 3, text: 'Reading for detail', completed: false },
+                { id: 4, text: 'Understanding logical argument', completed: false },
+                { id: 5, text: 'Recognizing writers opinions', completed: false }
+            ],
+            listening: [
+                { id: 1, text: 'Understanding main ideas', completed: false },
+                { id: 2, text: 'Understanding specific information', completed: false },
+                { id: 3, text: 'Recognizing opinions', completed: false },
+                { id: 4, text: 'Following conversation development', completed: false }
+            ],
+            grammar: [
+                { id: 1, text: 'Tenses', completed: false },
+                { id: 2, text: 'Conditionals', completed: false },
+                { id: 3, text: 'Passive voice', completed: false },
+                { id: 4, text: 'Relative clauses', completed: false },
+                { id: 5, text: 'Articles and determiners', completed: false }
+            ],
+            vocabulary: [
+                { id: 1, text: 'Academic vocabulary', completed: false },
+                { id: 2, text: 'Collocations', completed: false },
+                { id: 3, text: 'Idiomatic expressions', completed: false },
+                { id: 4, text: 'Word families', completed: false },
+                { id: 5, text: 'Synonyms and antonyms', completed: false }
+            ]
+        };
+        
+        // Tab management
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Change active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(tc => tc.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Add task
+        function addTask() {
+            const taskText = taskInput.value.trim();
+            if (taskText === '') return;
+            
+            const newTask = {
+                id: Date.now(),
+                text: taskText,
+                completed: false
+            };
+            
+            tasks.push(newTask);
+            saveTasks();
+            renderTasks();
+            taskInput.value = '';
+            updateStats();
+        }
+        
+        // Save tasks
+        function saveTasks() {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+        
+        // Render tasks
+        function renderTasks() {
+            taskList.innerHTML = '';
+            
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.className = 'task-item';
+                li.innerHTML = `
+                    <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} data-id="${task.id}">
+                    <span class="task-text ${task.completed ? 'task-completed' : ''}">${task.text}</span>
+                    <button class="btn btn-danger delete-task" data-id="${task.id}">Delete</button>
+                `;
+                taskList.appendChild(li);
+            });
+            
+            // Add event listeners to checkboxes and delete buttons
+            document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', toggleTask);
+            });
+            
+            document.querySelectorAll('.delete-task').forEach(button => {
+                button.addEventListener('click', deleteTask);
+            });
+        }
+        
+        // Toggle task status
+        function toggleTask(e) {
+            const taskId = parseInt(e.target.getAttribute('data-id'));
+            tasks = tasks.map(task => {
+                if (task.id === taskId) {
+                    return {...task, completed: !task.completed};
+                }
+                return task;
+            });
+            
+            saveTasks();
+            renderTasks();
+            updateStats();
+        }
+        
+        // Delete task
+        function deleteTask(e) {
+            const taskId = parseInt(e.target.getAttribute('data-id'));
+            tasks = tasks.filter(task => task.id !== taskId);
+            
+            saveTasks();
+            renderTasks();
+            updateStats();
+        }
+        
+        // Add weekly task
+        function addWeeklyTask() {
+            const taskText = weeklyTaskInput.value.trim();
+            const taskTime = weeklyTimeInput.value;
+            const selectedDay = weeklyDaySelect.value;
+            
+            if (taskText === '') return;
+            
+            const newTask = {
+                id: Date.now(),
+                text: taskText,
+                time: taskTime,
+                completed: false
+            };
+            
+            weeklyTasks[selectedDay].push(newTask);
+            saveWeeklyTasks();
+            renderWeeklyTasks();
+            weeklyTaskInput.value = '';
+            weeklyTimeInput.value = '';
+        }
+        
+        // Save weekly tasks
+        function saveWeeklyTasks() {
+            localStorage.setItem('weeklyTasks', JSON.stringify(weeklyTasks));
+        }
+        
+        // Render weekly tasks
+        function renderWeeklyTasks() {
+            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+            
+            days.forEach(day => {
+                const dayElement = document.getElementById(`${day}Tasks`);
+                dayElement.innerHTML = '';
+                
+                weeklyTasks[day].forEach(task => {
+                    const li = document.createElement('li');
+                    li.className = 'day-task';
+                    li.innerHTML = `
+                        <div>
+                            <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} data-day="${day}" data-id="${task.id}">
+                            <span class="${task.completed ? 'task-completed' : ''}">${task.text}</span>
+                        </div>
+                        ${task.time ? `<span class="task-time">${task.time}</span>` : ''}
+                    `;
+                    dayElement.appendChild(li);
+                });
+            });
+            
+            // Add event listeners to weekly task checkboxes
+            document.querySelectorAll('.day-task .task-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', toggleWeeklyTask);
+            });
+        }
+        
+        // Toggle weekly task status
+        function toggleWeeklyTask(e) {
+            const taskId = parseInt(e.target.getAttribute('data-id'));
+            const day = e.target.getAttribute('data-day');
+            
+            weeklyTasks[day] = weeklyTasks[day].map(task => {
+                if (task.id === taskId) {
+                    return {...task, completed: !task.completed};
+                }
+                return task;
+            });
+            
+            saveWeeklyTasks();
+            renderWeeklyTasks();
+        }
+        
+        // Add mock test
+        function addMock() {
+            const mockText = mockInput.value.trim();
+            const mockDate = mockDateInput.value;
+            
+            if (mockText === '') return;
+            
+            // Open mock details modal
+            mockTestName.value = mockText;
+            mockTestDate.value = mockDate || new Date().toISOString().split('T')[0];
+            mockListening.value = '';
+            mockReading.value = '';
+            mockWriting.value = '';
+            mockSpeaking.value = '';
+            mockOverallScore.textContent = '0.0';
+            
+            mockDetailsModal.style.display = 'flex';
+            mockInput.value = '';
+            mockDateInput.value = '';
+        }
+        
+        // Save mock tests
+        function saveMocks() {
+            localStorage.setItem('mocks', JSON.stringify(mocks));
+        }
+        
+        // Render mock tests
+        function renderMocks() {
+            mockList.innerHTML = '';
+            
+            mocks.forEach(mock => {
+                const li = document.createElement('li');
+                li.className = 'mock-item';
+                li.innerHTML = `
+                    <span class="mock-name">${mock.name}</span>
+                    <span class="mock-date">${mock.date}</span>
+                    <span class="mock-result">Overall: ${mock.overall}</span>
+                    <button class="btn" data-id="${mock.id}">View Details</button>
+                    <button class="btn btn-danger delete-mock" data-id="${mock.id}">Delete</button>
+                `;
+                mockList.appendChild(li);
+            });
+            
+            // Add event listeners to view details and delete buttons
+            document.querySelectorAll('.mock-item .btn:not(.btn-danger)').forEach(button => {
+                button.addEventListener('click', viewMockDetails);
+            });
+            
+            document.querySelectorAll('.delete-mock').forEach(button => {
+                button.addEventListener('click', deleteMock);
+            });
+        }
+        
+        // View mock test details
+        function viewMockDetails(e) {
+            const mockId = parseInt(e.target.getAttribute('data-id'));
+            const mock = mocks.find(m => m.id === mockId);
+            
+            if (mock) {
+                mockTestName.value = mock.name;
+                mockTestDate.value = mock.date;
+                mockListening.value = mock.listening;
+                mockReading.value = mock.reading;
+                mockWriting.value = mock.writing;
+                mockSpeaking.value = mock.speaking;
+                mockOverallScore.textContent = mock.overall;
+                
+                // Open modal
+                mockDetailsModal.style.display = 'flex';
+                
+                // Set up save button for this specific mock
+                saveMockDetailsBtn.onclick = function() {
+                    updateMockTest(mockId);
+                };
+            }
+        }
+        
+        // Update mock test
+        function updateMockTest(mockId) {
+            const name = mockTestName.value.trim();
+            const date = mockTestDate.value;
+            const listening = parseFloat(mockListening.value) || 0;
+            const reading = parseFloat(mockReading.value) || 0;
+            const writing = parseFloat(mockWriting.value) || 0;
+            const speaking = parseFloat(mockSpeaking.value) || 0;
+            
+            if (name === '') {
+                alert('Please enter a test name');
+                return;
+            }
+            
+            // Calculate overall score with proper rounding
+            const overall = calculateOverallScore([listening, reading, writing, speaking]);
+            
+            if (mockId) {
+                // Update existing mock test
+                mocks = mocks.map(mock => {
+                    if (mock.id === mockId) {
+                        return {
+                            ...mock,
+                            name,
+                            date,
+                            listening,
+                            reading,
+                            writing,
+                            speaking,
+                            overall
+                        };
+                    }
+                    return mock;
+                });
+            } else {
+                // Add new mock test
+                const newMock = {
+                    id: Date.now(),
+                    name,
+                    date,
+                    listening,
+                    reading,
+                    writing,
+                    speaking,
+                    overall
+                };
+                
+                mocks.push(newMock);
+            }
+            
+            saveMocks();
+            renderMocks();
+            mockDetailsModal.style.display = 'none';
+            updateStats();
+        }
+        
+        // Delete mock test
+        function deleteMock(e) {
+            const mockId = parseInt(e.target.getAttribute('data-id'));
+            mocks = mocks.filter(mock => mock.id !== mockId);
+            
+            saveMocks();
+            renderMocks();
+            updateStats();
+        }
+        
+        // Skills checklist functions
+        function addSkill(category, inputElement) {
+            const skillText = inputElement.value.trim();
+            if (skillText === '') return;
+            
+            const newSkill = {
+                id: Date.now(),
+                text: skillText,
+                completed: false
+            };
+            
+            skills[category].push(newSkill);
+            saveSkills();
+            renderSkills();
+            inputElement.value = '';
+            updateStats();
+        }
+        
+        // Delete skill
+        function deleteSkill(category, skillId) {
+            skills[category] = skills[category].filter(skill => skill.id !== skillId);
+            saveSkills();
+            renderSkills();
+            updateStats();
+        }
+        
+        // Toggle skill status
+        function toggleSkill(category, skillId) {
+            skills[category] = skills[category].map(skill => {
+                if (skill.id === skillId) {
+                    return {...skill, completed: !skill.completed};
+                }
+                return skill;
+            });
+            
+            saveSkills();
+            renderSkills();
+            updateStats();
+        }
+        
+        // Save skills
+        function saveSkills() {
+            localStorage.setItem('skills', JSON.stringify(skills));
+        }
+        
+        // Render skills
+        function renderSkills() {
+            // Speaking skills
+            speakingChecklist.innerHTML = '';
+            skills.speaking.forEach(skill => {
+                const li = document.createElement('li');
+                li.className = 'checklist-item';
+                li.innerHTML = `
+                    <input type="checkbox" class="checklist-checkbox" ${skill.completed ? 'checked' : ''} data-category="speaking" data-id="${skill.id}">
+                    <span class="checklist-text ${skill.completed ? 'task-completed' : ''}">${skill.text}</span>
+                    <button class="btn btn-danger delete-skill" data-category="speaking" data-id="${skill.id}">Delete</button>
+                `;
+                speakingChecklist.appendChild(li);
+            });
+            
+            // Writing skills
+            writingChecklist.innerHTML = '';
+            skills.writing.forEach(skill => {
+                const li = document.createElement('li');
+                li.className = 'checklist-item';
+                li.innerHTML = `
+                    <input type="checkbox" class="checklist-checkbox" ${skill.completed ? 'checked' : ''} data-category="writing" data-id="${skill.id}">
+                    <span class="checklist-text ${skill.completed ? 'task-completed' : ''}">${skill.text}</span>
+                    <button class="btn btn-danger delete-skill" data-category="writing" data-id="${skill.id}">Delete</button>
+                `;
+                writingChecklist.appendChild(li);
+            });
+            
+            // Reading skills
+            readingChecklist.innerHTML = '';
+            skills.reading.forEach(skill => {
+                const li = document.createElement('li');
+                li.className = 'checklist-item';
+                li.innerHTML = `
+                    <input type="checkbox" class="checklist-checkbox" ${skill.completed ? 'checked' : ''} data-category="reading" data-id="${skill.id}">
+                    <span class="checklist-text ${skill.completed ? 'task-completed' : ''}">${skill.text}</span>
+                    <button class="btn btn-danger delete-skill" data-category="reading" data-id="${skill.id}">Delete</button>
+                `;
+                readingChecklist.appendChild(li);
+            });
+            
+            // Listening skills
+            listeningChecklist.innerHTML = '';
+            skills.listening.forEach(skill => {
+                const li = document.createElement('li');
+                li.className = 'checklist-item';
+                li.innerHTML = `
+                    <input type="checkbox" class="checklist-checkbox" ${skill.completed ? 'checked' : ''} data-category="listening" data-id="${skill.id}">
+                    <span class="checklist-text ${skill.completed ? 'task-completed' : ''}">${skill.text}</span>
+                    <button class="btn btn-danger delete-skill" data-category="listening" data-id="${skill.id}">Delete</button>
+                `;
+                listeningChecklist.appendChild(li);
+            });
+            
+            // Grammar skills
+            grammarChecklist.innerHTML = '';
+            skills.grammar.forEach(skill => {
+                const li = document.createElement('li');
+                li.className = 'checklist-item';
+                li.innerHTML = `
+                    <input type="checkbox" class="checklist-checkbox" ${skill.completed ? 'checked' : ''} data-category="grammar" data-id="${skill.id}">
+                    <span class="checklist-text ${skill.completed ? 'task-completed' : ''}">${skill.text}</span>
+                    <button class="btn btn-danger delete-skill" data-category="grammar" data-id="${skill.id}">Delete</button>
+                `;
+                grammarChecklist.appendChild(li);
+            });
+            
+            // Vocabulary skills
+            vocabularyChecklist.innerHTML = '';
+            skills.vocabulary.forEach(skill => {
+                const li = document.createElement('li');
+                li.className = 'checklist-item';
+                li.innerHTML = `
+                    <input type="checkbox" class="checklist-checkbox" ${skill.completed ? 'checked' : ''} data-category="vocabulary" data-id="${skill.id}">
+                    <span class="checklist-text ${skill.completed ? 'task-completed' : ''}">${skill.text}</span>
+                    <button class="btn btn-danger delete-skill" data-category="vocabulary" data-id="${skill.id}">Delete</button>
+                `;
+                vocabularyChecklist.appendChild(li);
+            });
+            
+            // Add event listeners to checkboxes and delete buttons
+            document.querySelectorAll('.checklist-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const category = this.getAttribute('data-category');
+                    const skillId = parseInt(this.getAttribute('data-id'));
+                    toggleSkill(category, skillId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-skill').forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    const skillId = parseInt(this.getAttribute('data-id'));
+                    deleteSkill(category, skillId);
+                });
+            });
+        }
+        
+        // Update user information
+        function updateUser() {
+            const firstName = firstNameInput.value.trim();
+            const lastName = lastNameInput.value.trim();
+            
+            if (firstName === '') {
+                alert('Please enter your first name');
+                return;
+            }
+            
+            user.firstName = firstName;
+            user.lastName = lastName;
+            
+            localStorage.setItem('user', JSON.stringify(user));
+            updateWelcomeMessage();
+            profileModal.style.display = 'none';
+        }
+        
+        // Update welcome message
+        function updateWelcomeMessage() {
+            const fullName = user.lastName ? `${user.firstName} ${user.lastName}` : user.firstName;
+            welcomeMessage.textContent = `Welcome, ${fullName}!`;
+            userAvatar.textContent = user.firstName.charAt(0).toUpperCase();
+        }
+        
+        // Update goals
+        function updateGoals() {
+            goals.currentListening = parseFloat(editCurrentListening.value) || 0;
+            goals.targetListening = parseFloat(editTargetListening.value) || 0;
+            goals.currentReading = parseFloat(editCurrentReading.value) || 0;
+            goals.targetReading = parseFloat(editTargetReading.value) || 0;
+            goals.currentWriting = parseFloat(editCurrentWriting.value) || 0;
+            goals.targetWriting = parseFloat(editTargetWriting.value) || 0;
+            goals.currentSpeaking = parseFloat(editCurrentSpeaking.value) || 0;
+            goals.targetSpeaking = parseFloat(editTargetSpeaking.value) || 0;
+            
+            localStorage.setItem('goals', JSON.stringify(goals));
+            updateGoalDisplay();
+            goalsModal.style.display = 'none';
+        }
+        
+        // Update goal display
+        function updateGoalDisplay() {
+            // Calculate overall scores with proper rounding
+            const currentOverallScore = calculateOverallScore([
+                goals.currentListening,
+                goals.currentReading,
+                goals.currentWriting,
+                goals.currentSpeaking
+            ]);
+            
+            const targetOverallScore = calculateOverallScore([
+                goals.targetListening,
+                goals.targetReading,
+                goals.targetWriting,
+                goals.targetSpeaking
+            ]);
+            
+            currentListening.textContent = goals.currentListening;
+            targetListening.textContent = goals.targetListening;
+            currentReading.textContent = goals.currentReading;
+            targetReading.textContent = goals.targetReading;
+            currentWriting.textContent = goals.currentWriting;
+            targetWriting.textContent = goals.targetWriting;
+            currentSpeaking.textContent = goals.currentSpeaking;
+            targetSpeaking.textContent = goals.targetSpeaking;
+            currentOverall.textContent = currentOverallScore;
+            targetOverall.textContent = targetOverallScore;
+            
+            // Update progress bars
+            updateProgressBars();
+        }
+        
+        // Update progress bars
+        function updateProgressBars() {
+            // Overall progress
+            const currentOverallScore = parseFloat(currentOverall.textContent);
+            const targetOverallScore = parseFloat(targetOverall.textContent);
+            const overallProgressValue = Math.min(100, ((currentOverallScore - 0) / (targetOverallScore - 0)) * 100);
+            overallProgress.style.width = `${overallProgressValue}%`;
+            
+            // Listening progress
+            const listeningProgressValue = Math.min(100, ((goals.currentListening - 0) / (goals.targetListening - 0)) * 100);
+            listeningProgress.style.width = `${listeningProgressValue}%`;
+            
+            // Reading progress
+            const readingProgressValue = Math.min(100, ((goals.currentReading - 0) / (goals.targetReading - 0)) * 100);
+            readingProgress.style.width = `${readingProgressValue}%`;
+            
+            // Writing progress
+            const writingProgressValue = Math.min(100, ((goals.currentWriting - 0) / (goals.targetWriting - 0)) * 100);
+            writingProgress.style.width = `${writingProgressValue}%`;
+            
+            // Speaking progress
+            const speakingProgressValue = Math.min(100, ((goals.currentSpeaking - 0) / (goals.targetSpeaking - 0)) * 100);
+            speakingProgress.style.width = `${speakingProgressValue}%`;
+        }
+        
+        // Calculate mock test overall score
+        function calculateMockOverall() {
+            const listening = parseFloat(mockListening.value) || 0;
+            const reading = parseFloat(mockReading.value) || 0;
+            const writing = parseFloat(mockWriting.value) || 0;
+            const speaking = parseFloat(mockSpeaking.value) || 0;
+            
+            const overall = calculateOverallScore([listening, reading, writing, speaking]);
+            mockOverallScore.textContent = overall;
+        }
+        
+        // Calculate goals modal overall scores
+        function calculateGoalsOverall() {
+            const currentListening = parseFloat(editCurrentListening.value) || 0;
+            const currentReading = parseFloat(editCurrentReading.value) || 0;
+            const currentWriting = parseFloat(editCurrentWriting.value) || 0;
+            const currentSpeaking = parseFloat(editCurrentSpeaking.value) || 0;
+            
+            const targetListening = parseFloat(editTargetListening.value) || 0;
+            const targetReading = parseFloat(editTargetReading.value) || 0;
+            const targetWriting = parseFloat(editTargetWriting.value) || 0;
+            const targetSpeaking = parseFloat(editTargetSpeaking.value) || 0;
+            
+            const currentOverall = calculateOverallScore([currentListening, currentReading, currentWriting, currentSpeaking]);
+            const targetOverall = calculateOverallScore([targetListening, targetReading, targetWriting, targetSpeaking]);
+            
+            calculatedOverall.textContent = currentOverall;
+            calculatedTargetOverall.textContent = targetOverall;
+        }
+        
+        // Update statistics
+        function updateStats() {
+            // Tasks statistics
+            const total = tasks.length;
+            const completed = tasks.filter(task => task.completed).length;
+            const pending = total - completed;
+            const progress = total > 0 ? (completed / total) * 100 : 0;
+            
+            totalTasks.textContent = total;
+            completedTasks.textContent = completed;
+            pendingTasks.textContent = pending;
+            taskProgress.style.width = `${progress}%`;
+            
+            // Mock tests statistics
+            const mockTotal = mocks.length;
+            totalMocks.textContent = mockTotal;
+            
+            // Last 5 mock test results
+            const recentMockResults = mocks.slice(-5).map(mock => parseFloat(mock.overall) || 0);
+            recentMocks.innerHTML = '<p>Last 5 test results:</p>';
+            
+            if (recentMockResults.length > 0) {
+                const ul = document.createElement('ul');
+                recentMockResults.forEach((result, index) => {
+                    const li = document.createElement('li');
+                    li.textContent = `Test ${index + 1}: ${result}`;
+                    ul.appendChild(li);
+                });
+                recentMocks.appendChild(ul);
+            } else {
+                recentMocks.innerHTML += '<p>No test results available yet</p>';
+            }
+            
+            // Calculate trend
+            if (recentMockResults.length >= 2) {
+                const lastResult = recentMockResults[recentMockResults.length - 1];
+                const prevResult = recentMockResults[recentMockResults.length - 2];
+                
+                if (lastResult > prevResult) {
+                    mockTrend.innerHTML = 'Trend: <span class="trend-up">Improving ↗</span>';
+                } else if (lastResult < prevResult) {
+                    mockTrend.innerHTML = 'Trend: <span class="trend-down">Declining ↘</span>';
+                } else {
+                    mockTrend.innerHTML = 'Trend: <span>Stable</span>';
+                }
+            } else {
+                mockTrend.innerHTML = 'Trend: <span>Not enough data</span>';
+            }
+            
+            // Skills statistics
+            let totalSkillsCount = 0;
+            let completedSkillsCount = 0;
+            
+            for (const category in skills) {
+                totalSkillsCount += skills[category].length;
+                completedSkillsCount += skills[category].filter(skill => skill.completed).length;
+            }
+            
+            const skillsProgressValue = totalSkillsCount > 0 ? (completedSkillsCount / totalSkillsCount) * 100 : 0;
+            
+            skillsCompleted.textContent = `${Math.round(skillsProgressValue)}%`;
+            skillsProgress.style.width = `${skillsProgressValue}%`;
+            masteredSkills.textContent = completedSkillsCount;
+            totalSkills.textContent = totalSkillsCount;
+        }
+        
+        // Event listeners
+        addTaskBtn.addEventListener('click', addTask);
+        taskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTask();
+        });
+        
+        addWeeklyTaskBtn.addEventListener('click', addWeeklyTask);
+        weeklyTaskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addWeeklyTask();
+        });
+        
+        addMockBtn.addEventListener('click', addMock);
+        
+        // Skills checklist event listeners
+        addSpeakingBtn.addEventListener('click', () => addSkill('speaking', speakingInput));
+        speakingInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addSkill('speaking', speakingInput);
+        });
+        
+        addWritingBtn.addEventListener('click', () => addSkill('writing', writingInput));
+        writingInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addSkill('writing', writingInput);
+        });
+        
+        addReadingBtn.addEventListener('click', () => addSkill('reading', readingInput));
+        readingInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addSkill('reading', readingInput);
+        });
+        
+        addListeningBtn.addEventListener('click', () => addSkill('listening', listeningInput));
+        listeningInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addSkill('listening', listeningInput);
+        });
+        
+        addGrammarBtn.addEventListener('click', () => addSkill('grammar', grammarInput));
+        grammarInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addSkill('grammar', grammarInput);
+        });
+        
+        addVocabularyBtn.addEventListener('click', () => addSkill('vocabulary', vocabularyInput));
+        vocabularyInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addSkill('vocabulary', vocabularyInput);
+        });
+        
+        // Modal event listeners
+        editProfileBtn.addEventListener('click', () => {
+            firstNameInput.value = user.firstName;
+            lastNameInput.value = user.lastName;
+            profileModal.style.display = 'flex';
+        });
+        
+        closeProfileModal.addEventListener('click', () => {
+            profileModal.style.display = 'none';
+        });
+        
+        saveProfileBtn.addEventListener('click', updateUser);
+        
+        editGoalsBtn.addEventListener('click', () => {
+            editCurrentListening.value = goals.currentListening;
+            editTargetListening.value = goals.targetListening;
+            editCurrentReading.value = goals.currentReading;
+            editTargetReading.value = goals.targetReading;
+            editCurrentWriting.value = goals.currentWriting;
+            editTargetWriting.value = goals.targetWriting;
+            editCurrentSpeaking.value = goals.currentSpeaking;
+            editTargetSpeaking.value = goals.targetSpeaking;
+            calculateGoalsOverall();
+            goalsModal.style.display = 'flex';
+        });
+        
+        closeGoalsModal.addEventListener('click', () => {
+            goalsModal.style.display = 'none';
+        });
+        
+        saveGoalsBtn.addEventListener('click', updateGoals);
+        
+        closeMockDetailsModal.addEventListener('click', () => {
+            mockDetailsModal.style.display = 'none';
+        });
+        
+        saveMockDetailsBtn.addEventListener('click', function() {
+            updateMockTest();
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === profileModal) {
+                profileModal.style.display = 'none';
+            }
+            if (e.target === goalsModal) {
+                goalsModal.style.display = 'none';
+            }
+            if (e.target === mockDetailsModal) {
+                mockDetailsModal.style.display = 'none';
+            }
+        });
+        
+        // Mock test score input event listeners
+        mockListening.addEventListener('input', calculateMockOverall);
+        mockReading.addEventListener('input', calculateMockOverall);
+        mockWriting.addEventListener('input', calculateMockOverall);
+        mockSpeaking.addEventListener('input', calculateMockOverall);
+        
+        // Goals modal score input event listeners
+        editCurrentListening.addEventListener('input', calculateGoalsOverall);
+        editCurrentReading.addEventListener('input', calculateGoalsOverall);
+        editCurrentWriting.addEventListener('input', calculateGoalsOverall);
+        editCurrentSpeaking.addEventListener('input', calculateGoalsOverall);
+        editTargetListening.addEventListener('input', calculateGoalsOverall);
+        editTargetReading.addEventListener('input', calculateGoalsOverall);
+        editTargetWriting.addEventListener('input', calculateGoalsOverall);
+        editTargetSpeaking.addEventListener('input', calculateGoalsOverall);
+        
+        // Initialize application
+        function init() {
+            updateWelcomeMessage();
+            updateGoalDisplay();
+            renderTasks();
+            renderWeeklyTasks();
+            renderMocks();
+            renderSkills();
+            updateStats();
+            
+            // Set today's date as default
+            mockDateInput.value = new Date().toISOString().split('T')[0];
+            mockTestDate.value = new Date().toISOString().split('T')[0];
+        }
+        
+        // Start the application
+        init();
+    </script>
+</body>
+</html>
